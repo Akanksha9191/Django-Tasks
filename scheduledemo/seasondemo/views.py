@@ -27,8 +27,12 @@ def season_schedule_number(request, seasondemo):
     return HttpResponseRedirect(redirect_path_season)
 
 def season_schedule(request, seasondemo):
-    try:
+    # try:
         season_details_text = seasondemo_schedule[seasondemo]
-        return HttpResponse(season_details_text)
-    except:
+        print(season_details_text)
+        return render(request, 'season/seasondetail.html', {
+            'seasondemo':seasondemo,
+            'seasondetail':season_details_text
+        })
+    # except:
         return HttpResponseNotFound('This season is not valid')

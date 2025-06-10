@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block  pagetitle %}
+Employee Name
+{% endblock  %}
+{% block  content %}
+<ul>
+  {% for i in employees %}
+  <li> {{ i.emp_name }} </li>
+  {% endfor %}
+</ul>
+{% endblock  %}

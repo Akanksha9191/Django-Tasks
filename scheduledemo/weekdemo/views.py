@@ -27,9 +27,16 @@ def weekdemo_schedule_number(request, weekdemo):
     
     redirect_weekdemo_path = reverse('weekdemo-url', args=[redirectweekdemo])
     return HttpResponseRedirect(redirect_weekdemo_path)
+
 def week_schedule(request, weekdemo):
     try:
         weekdemo_detail_text = weekdemo_schedule[weekdemo]
-        return HttpResponse(weekdemo_detail_text)
+        print(weekdemo)
+        print(weekdemo_detail_text)
+        return render(request, 'week/week_detail.html', {
+            'weekdemo': weekdemo,
+            'weekdetail':weekdemo_detail_text
+            
+        })
     except:
         return HttpResponseNotFound('This week is not valid')

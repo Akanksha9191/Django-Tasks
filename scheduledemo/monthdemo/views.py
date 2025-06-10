@@ -37,7 +37,13 @@ def monthdemo_schedule_number(request, monthdemo):
 def monthdemo_schedule(request, monthdemo):
     try:
         month_details_text = monthlydemo_schedule[monthdemo]
-        return HttpResponse(month_details_text)
+        print(monthdemo)
+        print(month_details_text)
+        return render(request, 'month/index.html', {
+            'monthdemo':monthdemo,
+            'month_details': month_details_text
+            
+        })
     except:
         return HttpResponseNotFound('This month is not valid')
         
