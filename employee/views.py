@@ -4,6 +4,7 @@ from .models import Employee
 from .serializers import EmployeeSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 # from rest_framework.exceptions import APIException
 from rest_framework import parsers
 # from rest_framework.viewsets import ModelViewSet
@@ -12,25 +13,23 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
-class EmployeeAPIView(APIView):
+class EmployeeAPIView(GenericAPIView):
     serializer_class = EmployeeSerializer
+    queryset = Employee.objects.all()
+    lookup_field = 'pk'
     
     # get
-    def get(self, request):
-        emp_objs =Employee.objects.all()
-        serializer = EmployeeSerializer(emp_objs, many=True)
+    def get(self, request, pk=None):
+        emp_objs =self.get_queryset()
+        serializer = self.get_serializer(emp_objs, many=True)
         
         return Response({
             'status':status.HTTP_200_OK,
             'data':serializer.data
         })
-    @swagger_auto_schema(
-        request_body=EmployeeSerializer,
-        query_serializer=EmployeeSerializer,
-        security=[]
-    )
+
     # create
-    def post(self, request):
+    def post(self, request, pk=None):
         serializer = EmployeeSerializer(data=request.data)
         if not serializer.is_valid():
             print(serializer.errors)
@@ -45,14 +44,10 @@ class EmployeeAPIView(APIView):
             'data':serializer.data 
         })
     
-    @swagger_auto_schema(
-        request_body=EmployeeSerializer,
-        query_serializer=EmployeeSerializer,
-        security=[]
-    )  
+  
     # put
     def put(self, request, pk=None):
-        emp_objs =Employee.objects.all()
+        emp_objs =Employee.objects.get(pk=pk)
         serializer = EmployeeSerializer(emp_objs, data=request.data, partial=False)
         if not serializer.is_valid():
             print(serializer.errors)

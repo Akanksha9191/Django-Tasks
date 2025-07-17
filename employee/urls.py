@@ -12,7 +12,9 @@ from .views import EmployeeAPIView
 from .views import EmployeeAPIView
 app_name ='employee'
 urlpatterns = [
-    path('',EmployeeAPIView.as_view())
+    path('',EmployeeAPIView.as_view()),
+    path('<int:pk>', EmployeeAPIView.as_view())
+    
 ]
 
    
